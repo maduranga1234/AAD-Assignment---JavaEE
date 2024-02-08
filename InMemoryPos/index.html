@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap</title>
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>-->
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+<section id="customer" style="display: none;">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Customer Form</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Customer</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Item</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Orders</a>
+
+        </div>
+    </nav>
+
+    <div class="container text-center">
+        <div class="row">
+
+            <form id="search" class="d-flex col-3" role="search" style=" position: absolute;top:12%;left: 74%;">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-danger " fdprocessedid="prr3r4" type="submit">Search</button>
+            </form>
+
+
+            <div id="idDiv" class="col-3" style="   position: absolute;top:20%; left: 2%;">
+                <label for="CustomertxtID" class="form-label"></label>
+                <input type="email" class="form-control" id="CustomertxtID" placeholder="Id">
+            </div>
+
+            <div id="nameDiv" class="col-4" style=" position: absolute;top:20%;left: 33%;">
+                <label for="CustomertxtName" class="form-label"></label>
+                <input type="email" class="form-control" id="CustomertxtName" placeholder="Name">
+            </div>
+
+            <div id="addressDiv" class="col-4" style=" position: absolute;top:20%; left: 66%;">
+                <label for="CustomertxtAddress" class="form-label"></label>
+                <input type="email" class="form-control" id="CustomertxtAddress" placeholder="Address">
+            </div>
+
+            <div id="contactDiv" class="col-4" style="position: absolute; top:35%; left: 33%;">
+                <label for="CustomertxtContact" class="form-label"></label>
+                <input type="email" class="form-control" id="CustomertxtContact" placeholder="Contact Number">
+            </div>
+
+            <div id="emailDiv" class="col-4" style=" position: absolute;top:35%; left: 66%;">
+                <label for="CustomertxtEmail" class="form-label"></label>
+                <input type="email" class="form-control" id="CustomertxtEmail" placeholder="Email">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="btnDiv" style="position: absolute;right:2%;top:45%;">
+        <button id="btnSaveCustomer" type="button" class="btn btn-success">Save</button>
+
+        <button id="btnUpdate" type="button" class="btn btn-primary m-lg-4">Update</button>
+
+        <button id="btnCusDelete" type="button" class="btn btn-danger">Delete</button>
+
+        <button id="btnCustomerClear" type="button" class="btn btn-danger">Clear</button>
+
+
+    </div>
+
+    <table id="Custtable" class="table mt-5 border" style=" position: absolute; top: 50%;">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Contact</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody id="tBdy">
+
+        </tbody>
+    </table>
+</section>
+
+<section id="item" style="display: none;">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ITEM FORM</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Customer</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Item</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Orders</a>
+
+        </div>
+    </nav>
+
+    <div class="container text-center">
+        <div class="row">
+
+            <form class="d-flex col-3" role="search" style=" position: absolute;top:12%;left: 74%;">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-danger " fdprocessedid="prr3r4" type="submit">Search</button>
+            </form>
+
+
+            <div class="col-3" style="   position: absolute;top:20%; left: 2%;">
+                <label for="id" class="form-label"></label>
+                <input type="email" class="form-control" id="ItemId" placeholder="Id">
+            </div>
+
+            <div class="col-4" style=" position: absolute;top:20%;left: 33%;">
+                <label for="ItemName" class="form-label"></label>
+                <input type="email" class="form-control" id="ItemName" placeholder="Item name">
+            </div>
+
+            <div class="col-4" style=" position: absolute;top:20%; left: 66%;">
+                <label for="UnitPrice" class="form-label"></label>
+                <input type="email" class="form-control" id="UnitPrice" placeholder="Unit price">
+            </div>
+
+            <div class="col-4" style="position: absolute; top:35%; left: 33%;">
+                <label for="Qty" class="form-label"></label>
+                <input type="email" class="form-control" id="Qty" placeholder="Qty">
+            </div>
+
+            <div class="col-4" style=" position: absolute;top:35%; left: 66%;">
+                <label for="Quality" class="form-label"></label>
+                <input type="email" class="form-control" id="Quality" placeholder="Quality">
+            </div>
+
+        </div>
+    </div>
+
+    <div style=" position: absolute;right:2%;top:45%;">
+        <button id="ItemSaveBtn" type="button" class="btn btn-success">Save</button>
+
+        <button id="ItemUpdateBtn" type="button" class="btn btn-primary m-lg-4">Update</button>
+
+        <button id="ItemDeletBtn" type="button" class="btn btn-danger">Delete</button>
+        <button id="ItemClearBtn" type="button" class="btn btn-danger">Clear</button>
+
+    </div>
+
+    <table class="table mt-5 border" style=" position: absolute;top: 50%;">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Qlity</th>
+        </tr>
+        </thead>
+        <tbody id="ItmTBody">
+
+        </tbody>
+    </table>
+
+</section>
+
+<section id="order">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Place Order Form</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Customer</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Item</a>
+
+        </div>
+
+        <div>
+            <a class="navbar-brand" href="#">Orders</a>
+
+        </div>
+    </nav>
+    <div class="container-fluid mt-2">
+        <div class="row border">
+            <div class="col-12 col-md-4  mt-3 p-3 "
+                 style="border-radius: 10px; border: 2px solid #0bb256">
+                <h4 style="text-align: center;color: #0bb256 ">Invoice Details</h4>
+                <div class="row g-2">
+                    <div class="col-6">
+
+                        <label for="oId" class="form-label">Order Id :</label>
+                        <input type="text" id="oId" class="form-control" placeholder="Order Id" aria-label="Last name">
+
+                    </div>
+                    <div class="col-6">
+                        <label for="date" class="form-label">Order Date :</label>
+                        <input type="date" id="date" class="form-control" placeholder="Order Date"
+                               aria-label="Order Date">
+                    </div>
+                    <div class="col-6">
+                        <label for="inputState" class="form-label">Customer :</label>
+                        <select id="inputState" class="form-select">
+
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="id" class="form-label">Customer Id :</label>
+                        <input type="text" id="Custid" class="form-control" placeholder="Customer Id"
+                               aria-label="Last name">
+                    </div>
+                    <div class="col-12">
+                        <label for="name" class="form-label">Customer Name :</label>
+                        <input type="text" id="Custname" class="form-control" placeholder="Customer Name"
+                               aria-label="Last name">
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-12 col-md-4  mt-3 p-3 "
+                 style="border-radius: 10px; border: 2px solid #0BB256">
+                <!--Form--> <!--Slider-->
+                <h4 style="text-align: center; color: green">Item Select</h4>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label for="inputState1" class="form-label">Item Id :</label>
+                        <select id="inputState1" class="form-select">
+
+                        </select>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="OrderitemName" class="form-label">Item Name :</label>
+                        <input type="text" id="OrderitemName" class="form-control" placeholder="Item Name"
+                               aria-label="Last name">
+                    </div>
+
+                    <div class="col-4">
+                        <label for="OrderUnitprice" class="form-label">Unit Price :</label>
+                        <input type="text" id="OrderUnitprice" class="form-control" placeholder="Unit Price"
+                               aria-label="Last name">
+                    </div>
+
+                    <div class="col-4">
+                        <label for="qtyH" class="form-label">QtyOnHand :</label>
+                        <input type="text" id="qtyH" class="form-control" placeholder="Price" aria-label="QtyOnHand">
+                    </div>
+                    <div class="col-4">
+                        <label for="qlity" class="form-label">Qlity :</label>
+                        <input type="text" id="qlity" class="form-control" placeholder="Qlity"
+                               aria-label="Last name">
+                    </div>
+                    <div class="col-12">
+                        <label for="qty" class="form-label">OrderQty :</label>
+                        <input type="text" id="OrderItemqty" class="form-control" placeholder="OrderQty"
+                               aria-label="Last name">
+                    </div>
+
+
+                    <div style="display: flex">
+                        <label id="qtymassage" class="form-label" style="font-size: 12px; color: red; display: none">Please enter amount lower than :</label>
+                        <label id="h1hello" style="position:relative;font-size: 12px; color: red; left:1%; display: none"> </label>
+                    </div>
+
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button id="addToCart" type="button" class="btn btn-warning mt-3  ">AddToCart</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-4  mt-3 p-3 "
+                 style="border-radius: 10px; border: 2px solid #00a749">
+                <h2 style="color: #02a759">Total : RS <span id="lableTotPrice" >520.00</span>/=</h2>
+                <h2  style=" color: #c7bf00">SubTotal :RS <span id="lableSubTotal">80 </span>/=</h2>
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="cash" class="form-label">Cash :</label>
+                        <input type="text" id="cash" class="form-control" placeholder="Cash" aria-label="First name">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="Balance" class="form-label">Balance :</label>
+                        <input type="text" id="Balance" class="form-control" placeholder="Balance"
+                               aria-label="Last name">
+                    </div>
+
+                    <div class="col-12">
+                        <label for="Discount" class="form-label">Discount :</label>
+                        <input type="text" id="Discount" class="form-control" placeholder="Discount"
+                               aria-label="Last name">
+                    </div>
+
+                    <div style="display: flex">
+                        <label id="cashLOwMasse" class="form-label" style="font-size: 12px; color: red; display: none">Please enter amount greater than :</label>
+                        <label id="cashShow" style="position:relative;font-size: 12px; color: red; left:1%; display: none"> </label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Table-->
+    <div class="table-responsive  mt-5 " style="height: 145px; bottom:35px; position: relative;">
+        <table id="clickTable" class="table table-bordered table-hover table-striped-columns ">
+            <thead>
+            <tr class="table mt-5 p-3 ">
+
+                <th class="bg-success">Item Id</th>
+                <th class="bg-success">Item Name</th>
+                <th class="bg-success">Unit Price</th>
+                <th class="bg-success">Quantity</th>
+                <th class="bg-success">Total</th>
+            </tr>
+            </thead>
+            <tbody id="orderTbdy">
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button id="puches" type="button" class="btn btn-success" style="width: 30%;">Purchase</button>
+    </div>
+
+
+</section>
+
+<script src="assets/bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
+
+<script src="assets/js/jquery-3.7.1.min.js"></script>
+
+<script>
+    window.onload = function (event) {
+        let selectedSection = sessionStorage.getItem("selectedSection");
+        if (selectedSection) {
+            document.querySelectorAll("body>section").forEach(section => {
+                section.style.display = "none";
+            });
+            document.getElementById(selectedSection).style.display = "block";
+        } else {
+            navigate("order");
+        }
+    };
+
+    //placeOrder
+    document.querySelector("#order>nav>div:nth-child(3)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#item").style.display = "block";
+            document.querySelector("#order").style.display = "none";
+            sessionStorage.setItem("selectedSection", "item");
+        }
+    );
+    document.querySelector("#order>nav>div:nth-child(2)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#customer").style.display = "block";
+            document.querySelector("#order").style.display = "none";
+            sessionStorage.setItem("selectedSection", "customer");
+        }
+    );
+
+
+    //items
+    document.querySelector("#item>nav>div:nth-child(4)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#order").style.display = "block";
+            document.querySelector("#item").style.display = "none";
+            sessionStorage.setItem("selectedSection", "order");
+        }
+    );
+    document.querySelector("#item>nav>div:nth-child(2)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#customer").style.display = "block";
+            document.querySelector("#item").style.display = "none";
+            sessionStorage.setItem("selectedSection", "customer");
+        }
+    );
+
+
+    //customers
+    document.querySelector("#customer>nav>div:nth-child(3)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#item").style.display = "block";
+            document.querySelector("#customer").style.display = "none";
+            sessionStorage.setItem("selectedSection", "item");
+        }
+    );
+    document.querySelector("#customer>nav>div:nth-child(4)>a").addEventListener(
+        "click", function () {
+            document.querySelector("#order").style.display = "block";
+            document.querySelector("#customer").style.display = "none";
+            sessionStorage.setItem("selectedSection", "order");
+        }
+    );
+
+
+/*Customer set value////////////////////////////////////////////////////////////////////////////////*/
+//     var detail = [];
+//
+//     $("#CustSaveBTN").click(function (event) {
+//         // alert("hello");
+//         txtID = $('#id').val();
+//         txtName = $("#name").val();
+//         txtAddress = $("#address").val();
+//         txtContact = $("#tp").val();
+//         txtEmail = $("#email").val();
+//
+//         var customer = {
+//             Cusid: txtID,
+//             Cusname: txtName,
+//             Cusaddress: txtAddress,
+//             Cuscontent: txtContact,
+//             CusEmail: txtEmail
+//         }
+//
+//         let tbody = $("#tBdy");
+//         tbody.append(
+//             `<tr>
+//                     <td>${customer.Cusid}</td>
+//                     <td>${customer.Cusname}</td>
+//                     <td>${customer.Cusaddress}</td>
+//                     <td>${customer.Cuscontent}</td>
+//                     <td>${customer.CusEmail}</td>
+//                 </tr> `)
+//         detail.push(customer);
+//
+//         event.preventDefault();
+//     });
+//
+//
+//
+//
+//     $(document).on('click', '#tBdy > tr', function () {
+//         let id = $(this).children(':nth-child(1)').text();
+//         let name = $(this).children(':nth-child(2)').text();
+//         let address = $(this).children(':nth-child(3)').text();
+//         let contact = $(this).children(':nth-child(4)').text();
+//         let email = $(this).children(':nth-child(5)').text();
+//
+//         setTextFieldValues(id, name, address, contact ,email);
+//     });
+//
+//     function setTextFieldValues(id, name, address, contact, email) {
+//         $("#id").val(id);
+//         $("#name").val(name);
+//         $("#address").val(address);
+//         $("#tp").val(contact);
+//         $("#email").val(email);
+//
+//     }
+//
+//
+// /*Item set value ///////////////////////////////////////////////////////////////////////*/
+//
+//     var Itemdetail = [];
+//
+//     $("#ItemSaveBtn").click(function (event) {
+//         // alert("hello");
+//         txtItmID = $('#ItemId').val();
+//         txtItmName = $("#ItemName").val();
+//         txtPrice = $("#UnitPrice").val();
+//         txtQty = $("#Qty").val();
+//         txtQlity = $("#Quality").val();
+//
+//         var item = {
+//             Itemid: txtItmID,
+//             Itemname: txtItmName,
+//             UnitPrice: txtPrice,
+//             Qty: txtQty,
+//             Qlity: txtQlity
+//         }
+//
+//         let tbody = $("#ItmTBody");
+//         tbody.append(
+//             `<tr>
+//                     <td>${item.Itemid}</td>
+//                     <td>${item.Itemname}</td>
+//                     <td>${item.UnitPrice}</td>
+//                     <td>${item.Qty}</td>
+//                     <td>${item.Qlity}</td>
+//                 </tr> `)
+//         Itemdetail.push(item);
+//
+//         event.preventDefault();
+//     });
+//
+//
+//
+//
+//     $(document).on('click', '#ItmTBody > tr', function () {
+//         let id = $(this).children(':nth-child(1)').text();
+//         let name = $(this).children(':nth-child(2)').text();
+//         let price = $(this).children(':nth-child(3)').text();
+//         let Qty = $(this).children(':nth-child(4)').text();
+//         let Qlity = $(this).children(':nth-child(5)').text();
+//
+//         setTextFieldValues(id, name, price,Qty,Qlity);
+//     });
+//
+//     function setTextFieldValues(id, name, price, Qty, Qlity) {
+//         $("#ItemId").val(id);
+//         $("#ItemName").val(name);
+//         $("#UnitPrice").val(price);
+//         $("#Qty").val(Qty);
+//         $("#Quality").val(Qlity);
+//
+//     }
+//
+//
+//
+//
+//
+//     /*Add to Carrt ////////////////////////////////////////////////////////////////////////////////////////////*/
+//
+//
+//
+//     var Orderdetail = [];
+//
+//     $("#addToCart").click(function (event) {
+//         // alert("hello");
+//         txtOrderItemCode = $('#OrderitemCode').val();
+//         txtOrderItemName = $("#OrderitemName").val();
+//         txtOrderUnitPrice = $("#OrderUnitprice").val();
+//         txtOrderQty = $("#OrderItemqty").val();
+//
+//
+//         var order = {
+//             OrderItemid: txtOrderItemCode,
+//             OrderItemname: txtOrderItemName,
+//             OrderUnitPrice: txtOrderUnitPrice,
+//             OrderQty: txtOrderQty
+//
+//         }
+//
+//         let tbody = $("#orderTbdy");
+//         tbody.append(
+//             `<tr>
+//                     <td>${order.OrderItemid}</td>
+//                     <td>${order.OrderItemname}</td>
+//                     <td>${order.OrderUnitPrice}</td>
+//                     <td>${order.OrderQty}</td>
+//
+//                 </tr> `)
+//         Orderdetail.push(order);
+//
+//         event.preventDefault();
+//     });
+
+
+
+
+
+
+</script>
+
+<script src="assets/js/jquery-3.6.1.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="controller/DashboardController.js"></script>
+<script src="db/db.js"></script>
+
+<script src="models/Customer.js"></script>
+<script src="controller/CustomerController.js"></script>
+<script src="controller/validation/CustomerValidation.js"></script>
+
+<script src="models/Item.js"></script>
+<script src="controller/ItemController.js"></script>
+<script src="controller/validation/ItemValidation.js"></script>
+
+<script src="controller/OrderController.js"></script>
+<script src="controller/validation/OrderValidation.js"></script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
