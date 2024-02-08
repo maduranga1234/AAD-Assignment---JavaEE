@@ -1,162 +1,154 @@
+//load all Item
+//Save Item
+$(document).ready(function () {
+    getAllItems(); // Corrected function name
 
-    getAllItem();
+    $("#btnSaveItem").click(function () {
+        if (checkAllItem()) {
+            saveItem();
+        } else {
+            alert("Error: Please check all fields");
+        }
+    });
 
-
-$("#ItemSaveBtn").click(function () {
-    if (checkAllItem()){
-        saveItem();
-    }else{
-        alert("Error");
-    }
+    $("#btnItemClear").click(function () {
+        clearItemInputFields();
+    });
 });
+
+function getAllItems() {
+    $("#ItmTBody").empty();
+
+    $.ajax({
+        url: "http://localhost:8080/app/item?function=getAll",
+        method: "GET",
+        dataType: "json",
+        success: function (res) {
+            var rows = "";
+            $.each(res.data, function (index, c) {
+                let code = c.code;
+                let name = c.description;
+                let price = c.price;
+                let qty = c.qty;
+                let quality= c.quality;
+
+                let row = "<tr><td>" + code + "</td><td>" + name + "</td><td>" + price + "</td><td>" + qty + "</td><td>" + quality + "</td></tr>";
+                rows += row;
+            });
+            $("#ItmTBody").append(rows);
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", status, error);
+        }
+    });
+}
 
 // Save Item
 function saveItem() {
-
-    let ItemId = $("#ItemId").val();
-    //check customer is exists or not?
-    if (searchItem(ItemId.trim()) == undefined) {
-
-        let ItemName = $("#ItemName").val();
-        let ItemPrice = $("#UnitPrice").val();
-        let ItemQuantity = $("#Qty").val();
-        let ItemQlity = $("#Quality").val();
+    let id = $("#ItemtxtID").val();
+    let name = $("#ItemtxtName").val();
+    let price = $("#ItemtxtPrice").val();
+    let quantity = $("#ItemtxtQuantity").val();
+    let quality = $("#ItemtxtQulity").val();
 
 
-        let newItem = Object.assign({}, item);
+    let itemObj ={
+        id: id,
+        name: name,
+        price: price,
+        quantity: quantity,
+        quality:quality
+    };
 
-        newItem.code = ItemId;
-        newItem.name = ItemName;
-        newItem.unitPrice = ItemPrice;
-        newItem.qtyOnHand = ItemQuantity;
-        newItem.qlity=ItemQlity;
-
-        itemDB.push(newItem);
-        clearItemInputFields();
-        getAllItem();
-
-
-    } else {
-        alert("Item already exits.!");
-        clearItemInputFields();
-    }
+    $.ajax({
+        url: "http://localhost:8080/app/item",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify(itemObj),
+        success: function (resp, textStatus, jqxhr) {
+            alert("Item saved successfully");
+            getAllItems();
+            clearItemInputFields();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if(jqXHR.status == 409) {
+                alert("Duplicate values. Please check again");
+            } else {
+                alert("Error: Item not added");
+            }
+        }
+    });
 }
 
 //delete Item
-$("#ItemDeletBtn").click(function () {
-    let id = $("#ItemId").val();
-
+$("#btnItemDelete").click(function () {
+    let id = $("#ItemtxtID").val();
+    let formData = $('#CustomerForm').serialize()
     let consent = confirm("Do you want to delete.?");
     if (consent) {
-        let response = deleteItem(id);
-        if (response) {
-            alert("Item Deleted");
-            // clearItemInputFields();
-            getAllItem();
-        } else {
-            alert("Item Not Removed..!");
-        }
+        $.ajax({
+            url: "http://localhost:8080/app/item?id="+id,
+            method: "delete",
+            data:formData,
+            success: function (res) {
+                alert("customer remove");
+                getAllItems()
+                clearItemInputFields();
+                console.log(res)
+            },
+            error: function (error) {
+                let message = JSON.parse(error.responseText).message
+                alert(message)
+            },
+        });
     }
 });
-
-function deleteItem(id) {
-    for (let i = 0; i < itemDB.length; i++) {
-        if (itemDB[i].code == id) {
-            itemDB.splice(i, 1);
-            return true;
-        }
-    }
-    return false;
-}
-
 
 //update  Item
-$("#ItemUpdateBtn").click(function () {
-    let code = $("#ItemId").val();
-    updateItem(code);
-    clearItemInputFields();
+$("#btnItemUpdate").click(function () {
+    let id = $("#ItemtxtID").val();
+    let name = $("#ItemtxtName").val();
+    let price = $("#ItemtxtPrice").val();
+    let quantity = $("#ItemtxtQuantity").val();
+    let quality=$("#ItemtxtQulity").val();
+
+    var ItemOB = {
+        id:id,
+        name:name,
+        price:price,
+        quantity:quantity,
+        quality:quality
+    }
+    $.ajax({
+        url: "http://localhost:8080/app/item",
+        method:"put",
+        contentType:"application/json",
+        data:JSON.stringify(ItemOB),
+        dataType:"json",
+        success: function (res) {
+            alert("customer updated");
+            clearItemInputFields();
+            getAllItems()
+
+        },
+        error: function (error) {
+            let message = JSON.parse(error.responseText).message;
+            alert("customer not update");
+        },
+    });
 });
 
-//clear textField
-$("#ItemClearBtn").click(function () {
-    clearItemInputFields();
+$(document).on('click', '#ItmTBody > tr', function() {
+    let code = $(this).children().eq(0).text();
+    let desc = $(this).children().eq(1).text();
+    let salary = $(this).children().eq(2).text();
+    let qty = $(this).children().eq(3).text();
+    let quality = $(this).children().eq(4).text();
+
+    $("#ItemtxtID").val(code);
+    $("#ItemtxtName").val(desc);
+    $("#ItemtxtPrice").val(salary);
+    $("#ItemtxtQuantity").val(qty);
+    $("#ItemtxtQulity").val(quality);
 
 });
-
-function searchItem(code) {
-    return itemDB.find(function (item) {
-        return item.code == code;
-    });
-}
-
-function updateItem(code) {
-    if (searchItem(code) == undefined) {
-        alert("No Item find..please check the Code");
-    } else {
-        let consent = confirm("Do you really want to update this Item.?");
-        if (consent) {
-            let item = searchItem(code);
-
-            let ItemName = $("#ItemName").val();
-            let ItemPrice = $("#UnitPrice").val();
-            let ItemQuantity = $("#Qty").val();
-            let ItemQlity = $("#Quality").val();
-
-
-            item.name = ItemName;
-            item.unitPrice = ItemPrice;
-            item.qtyOnHand = ItemQuantity;
-            item.qlity = ItemQlity;
-
-
-            getAllItem();
-        }
-    }
-}
-
-//click table .shire value textField
-function bindTrEvents() {
-
-    $(document).on('click', '#ItmTBody > tr', function () {
-        let id = $(this).children(':nth-child(1)').text();
-        let name = $(this).children(':nth-child(2)').text();
-        let price = $(this).children(':nth-child(3)').text();
-        let Qty = $(this).children(':nth-child(4)').text();
-        let Qlity = $(this).children(':nth-child(5)').text();
-
-        setTextFieldValues(id, name, price,Qty,Qlity);
-    });
-
-    function setTextFieldValues(id, name, price, Qty, Qlity) {
-        $("#ItemId").val(id);
-        $("#ItemName").val(name);
-        $("#UnitPrice").val(price);
-        $("#Qty").val(Qty);
-        $("#Quality").val(Qlity);
-
-    }
-}
-
-
-function getAllItem() {
-    $("#ItmTBody").empty();
-
-    for (let i = 0; i < itemDB.length; i++) {
-        let itemCode = itemDB[i].code;
-        let itemName = itemDB[i].name;
-        let itemPrice = itemDB[i].unitPrice;
-        let itemQtyOnHand = itemDB[i].qtyOnHand;
-        let itemQlity = itemDB[i].qlity;
-
-        let row = `<tr>
-                     <td>${itemCode}</td>
-                     <td>${itemName}</td>
-                     <td>${itemPrice}</td>
-                     <td>${itemQtyOnHand}</td>
-                     <td>${itemQlity}</td>
-                    </tr>`;
-
-        $("#ItmTBody").append(row);
-        bindTrEvents();
-    }
-}

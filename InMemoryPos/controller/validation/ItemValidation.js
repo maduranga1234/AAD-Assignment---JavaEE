@@ -2,48 +2,42 @@ const Item_iD_Check = /^(I00-)[0-9]{3}$/;
 const Item_desc_Check = /^[A-Za-z ]{2,}$/;
 const Item_Price_Check = /^[0-9]{2,}([.][0-9]{2})?$/;
 const Item_Quantity_Check = /^[0-9]{1,}$/;
-const Item_qlity_Check = /^[A-Za-z ]{3,}$/;
+
 
 
 let itemArray = new Array();
-itemArray.push({field: $("#ItemId"), regEx: Item_iD_Check});
-itemArray.push({field: $("#ItemName"), regEx: Item_desc_Check});
-itemArray.push({field: $("#UnitPrice"), regEx: Item_Price_Check});
-itemArray.push({field: $("#Qty"), regEx: Item_Quantity_Check});
-itemArray.push({field: $("#Quality"), regEx: Item_qlity_Check});
+itemArray.push({field: $("#ItemtxtID"), regEx: Item_iD_Check});
+itemArray.push({field: $("#ItemtxtName"), regEx: Item_desc_Check});
+itemArray.push({field: $("#ItemtxtPrice"), regEx: Item_Price_Check});
+itemArray.push({field: $("#ItemtxtQuantity"), regEx: Item_Quantity_Check});
+itemArray.push({field: $("#ItemtxtQulity"), regEx: Item_desc_Check});
 
 
 function clearItemInputFields() {
-    $("#ItemId,#ItemName,#UnitPrice,#Qty,#Quality").val("");
-    $("#ItemId,#ItemName,#UnitPrice,#Qty,#Quality").css("border", "1px solid #ced4da");
-    $("#ItemtId").focus();
+    $("#ItemtxtID,#ItemtxtName,#ItemtxtPrice,#ItemtxtQuantity,#ItemtxtQulity").val("");
+    $("#ItemtxtID,#ItemtxtName,#ItemtxtPrice,#ItemtxtQuantity,#ItemtxtQulity").css("border", "1px solid #ced4da");
+    $("#ItemtxtID").focus();
     setBtnItem();
 }
 
 setBtnItem();
 
 function setBtnItem() {
-    $("#ItemDeletBtn").prop("disabled", true);
-    $("#ItemUpdateBtn").prop("disabled", true);
+    $("#btnItemDelete").prop("disabled", true);
+    $("#btnItemUpdate").prop("disabled", true);
 
     if (checkAllItem()) {
-        $("#ItemSaveBtn").prop("disabled", false);
+        $("#btnSaveItem").prop("disabled", false);
+        $("#btnItemDelete").prop("disabled", false);
+        $("#btnItemUpdate").prop("disabled", false);
     } else {
-        $("#ItemSaveBtn").prop("disabled", true);
+        $("#btnSaveItem").prop("disabled", true);
+        $("#btnItemDelete").prop("disabled", true);
+        $("#btnItemUpdate").prop("disabled", true);
     }
-
-    let id = $("#ItemId").val();
-    if (searchItem(id) == undefined) {
-        $("#ItemDeletBtn").prop("disabled", true);
-        $("#ItemUpdateBtn").prop("disabled", true);
-    } else {
-        $("#ItemDeletBtn").prop("disabled", false);
-        $("#ItemUpdateBtn").prop("disabled", false);
-    }
-
 }
 
-$("#ItemId,#ItemName,#UnitPrice,#Qty,#Quality").on("keydown keyup", function (e) {
+$("#ItemtxtID,#ItemtxtName,#ItemtxtPrice,#ItemtxtQuantity,#ItemtxtQulity").on("keydown keyup", function (e) {
     let indexNo = itemArray.indexOf(itemArray.find((c) => c.field.attr("code") == e.target.code));
 
     if (e.key == "Tab") {
@@ -67,7 +61,6 @@ $("#ItemId,#ItemName,#UnitPrice,#Qty,#Quality").on("keydown keyup", function (e)
         }
     }
 });
-
 
 function checkValidations(object) {
     if (object.regEx.test(object.field.val())) {
