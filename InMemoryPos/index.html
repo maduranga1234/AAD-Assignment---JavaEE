@@ -220,8 +220,9 @@
                 <div class="row g-2">
                     <div class="col-6">
 
-                        <label for="oId" class="form-label">Order Id :</label>
-                        <input type="text" id="oId" class="form-control" placeholder="Order Id" aria-label="Last name">
+                        <label for="OrderId" class="form-label">Order Id :</label>
+                        <input type="text" id="OrderId" class="form-control" placeholder="Order Id" aria-label="Last name">
+                        <label for="OrderId" id="OrderNotTypeId" class="form-label" style="display: none;color: red">:</label>
 
                     </div>
                     <div class="col-6">
@@ -230,19 +231,19 @@
                                aria-label="Order Date">
                     </div>
                     <div class="col-6">
-                        <label for="inputState" class="form-label">Customer :</label>
-                        <select id="inputState" class="form-select">
+                        <label for="CustominputState" class="form-label">Customer :</label>
+                        <select id="CustominputState" class="form-select">
 
                         </select>
                     </div>
                     <div class="col-6">
-                        <label for="id" class="form-label">Customer Id :</label>
-                        <input type="text" id="Custid" class="form-control" placeholder="Customer Id"
+                        <label for="custIdSetOrder" class="form-label">Customer Id :</label>
+                        <input type="text" id="custIdSetOrder" class="form-control" placeholder="Customer Id"
                                aria-label="Last name">
                     </div>
                     <div class="col-12">
-                        <label for="name" class="form-label">Customer Name :</label>
-                        <input type="text" id="Custname" class="form-control" placeholder="Customer Name"
+                        <label for="custNameSetOrder" class="form-label">Customer Name :</label>
+                        <input type="text" id="custNameSetOrder" class="form-control" placeholder="Customer Name"
                                aria-label="Last name">
                     </div>
 
@@ -255,8 +256,8 @@
                 <h4 style="text-align: center; color: green">Item Select</h4>
                 <div class="row g-2">
                     <div class="col-6">
-                        <label for="inputState1" class="form-label">Item Id :</label>
-                        <select id="inputState1" class="form-select">
+                        <label for="IteminputState" class="form-label">Item Id :</label>
+                        <select id="IteminputState" class="form-select">
 
                         </select>
                     </div>
@@ -301,8 +302,8 @@
             </div>
             <div class="col-12 col-md-4  mt-3 p-3 "
                  style="border-radius: 10px; border: 2px solid #00a749">
-                <h2 style="color: #02a759">Total : RS <span id="lableTotPrice" >520.00</span>/=</h2>
-                <h2  style=" color: #c7bf00">SubTotal :RS <span id="lableSubTotal">80 </span>/=</h2>
+                <h2 style="color: #02a759">Total : RS <span id="lableTotPrice" ></span>/=</h2>
+                <h2  style=" color: #c7bf00">SubTotal :RS <span id="lableSubTotal"> </span>/=</h2>
                 <div class="row g-2">
                     <div class="col-12">
                         <label for="cash" class="form-label">Cash :</label>
@@ -345,7 +346,7 @@
                 <th class="bg-success">Total</th>
             </tr>
             </thead>
-            <tbody id="orderTbdy">
+            <tbody id="TBodyOrder">
 
 
             </tbody>

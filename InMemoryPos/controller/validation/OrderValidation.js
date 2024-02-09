@@ -1,15 +1,64 @@
-let orderNumberCounter = 1;
 let orderIDstor;
-generateOrderID();
-function generateOrderID() {
-    const orderID = `ORD-${String(orderNumberCounter).padStart(3, '0')}`;
-    orderNumberCounter++;
-    orderIDstor = orderID;
-    $("#oId").val(orderID);
+generateOrderIDfriest();
+function generateOrderIDfriest() {
+    $.ajax({
+        url: "http://localhost:8080/app/order?function=getLastId",
+        method: "get",
+        success: function (resp, textStatus, jqxhr) {
+            console.log(resp);
+            if(resp == "no_ids"){
+                $("#OrderId").val("ORD-001");
+                orderIDstor = "ORD-001";
+            }else{
+                let lastNumber = parseInt(resp.match(/\d+$/)[0]);
+                if (!isNaN(lastNumber)) {
+                    let nextNumber = (lastNumber + 1).toString().padStart(3, '0');
+                    let nextOrderID = resp.replace(/\d+$/, nextNumber);
+                    $("#OrderId").val(nextOrderID);
+                    orderIDstor = nextOrderID;
+                } else {
+                    console.log("Invalid response format");
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error - generateNextOrderId");
+            console.error(jqXHR);
+        }
+    });
 }
 
+function generateOrderIDsecond() {
+    let lastNumber = parseInt(orderIDstor.match(/\d+$/)[0]);
+    if (!isNaN(lastNumber)) {
+        let nextNumber = (lastNumber + 1).toString().padStart(3, '0');
+        let nextOrderID = orderIDstor.replace(/\d+$/, nextNumber);
+        $("#OrderId").val(nextOrderID);
+        orderIDstor = nextOrderID;
+    } else {
+        console.log("Invalid response format");
+    }
+}
+
+let typeOrdIdOrderPlace = document.getElementById("OrderId");
+let OrderNotTypeId = document.getElementById("OrderNotTypeId");
+typeOrdIdOrderPlace.addEventListener("keyup", function () {
+    if ($("#OrderId").val() === orderIDstor) {
+        $("#OrderNotTypeId").css({
+            display: "none",
+        });
+        $("#lableTotPrice").text("0");
+        $("#lableSubTotal").text("0");
+    } else {
+        $("#OrderNotTypeId").css({
+            display: "block",
+        });
+        OrderNotTypeId.textContent="Next Order Id : "+orderIDstor;
+    }
+});
+
 //item section
-let ChoiceElement = document.getElementById("OrderItemqty");
+let ChoiceElement = document.getElementById("ChoiceQTYOrder");
 let labelElement = document.getElementById("h1hello");
 let qty2;
 function CheckQTY(qty) {
@@ -22,7 +71,7 @@ ChoiceElement.addEventListener("keyup", function () {
         $("#qtymassage").css({
             display: "block",
         });
-        $("#OrderItemqty").css({
+        $("#ChoiceQTYOrder").css({
             border:"2px solid red"
         });
         $("#h1hello").css({
@@ -33,7 +82,7 @@ ChoiceElement.addEventListener("keyup", function () {
         $("#qtymassage").css({
             display: "none"
         });
-        $("#OrderItemqty").css({
+        $("#ChoiceQTYOrder").css({
             border:"0px solid white"
         });
         $("#h1hello").css({
@@ -43,31 +92,30 @@ ChoiceElement.addEventListener("keyup", function () {
 });
 
 function checkValidation() {
-    var inputField = document.getElementById("OrderitemName");
+    var inputField = document.getElementById("ItemIdSetOrder");
     var inputValue = inputField.value.trim();
-    var inputField2 = document.getElementById("Custname");
+    var inputField2 = document.getElementById("custIdSetOrder");
     var inputValue2 = inputField2.value.trim();
     var inputFieldDate = document.getElementById("date");
     var inputValueDate = inputFieldDate.value.trim();
-    var inputFieldorder = document.getElementById("OrderItemqty");
+    var inputFieldorder = document.getElementById("ChoiceQTYOrder");
     var inputValueorder = inputFieldorder.value.trim();
-
     if (inputValue === "" || inputValue2 === "" || inputValueDate === "" || inputValueorder === "") {
         if (inputValue === "") {
-            $("#inputState1").css({
+            $("#IteminputState").css({
                 border: "2px solid red"
             });
         } else {
-            $("#inputState1").css({
+            $("#IteminputState").css({
                 border: "0px solid white"
             });
         }
         if (inputValue2 === "") {
-            $("#inputState").css({
+            $("#CustominputState").css({
                 border: "2px solid red"
             });
         } else {
-            $("#inputState").css({
+            $("#CustominputState").css({
                 border: "0px solid white"
             });
         }
@@ -81,57 +129,56 @@ function checkValidation() {
             });
         }
         if (inputValueorder === "") {
-            $("#OrderItemqty").css({
+            $("#ChoiceQTYOrder").css({
                 border: "2px solid red"
             });
         } else {
-            $("#OrderItemqty").css({
+            $("#ChoiceQTYOrder").css({
                 border: "0px solid white"
             });
         }
     } else {
         getAllItemTOOrder();
-        $("#inputState1").css({
+        $("#IteminputState").css({
             border:"0px solid white"
         });
-        $("#inputState").css({
+        $("#CustominputState").css({
             border:"0px solid white"
         });
         $("#date").css({
             border:"0px solid white"
         });
-        $("#OrderItemqty").css({
+        $("#ChoiceQTYOrder").css({
             border:"2px solid white"
         });
     }
 }
 
 function checkValidationPurch() {
-
-    var inputField = document.getElementById("OrderitemName");
+    var inputField = document.getElementById("ItemIdSetOrder");
     var inputValue = inputField.value.trim();
-    var inputField2 = document.getElementById("Custname");
+    var inputField2 = document.getElementById("custIdSetOrder");
     var inputValue2 = inputField2.value.trim();
     var inputFieldDate = document.getElementById("date");
     var inputValueDate = inputFieldDate.value.trim();
-    var inputFieldorder = document.getElementById("OrderItemqty");
+    var inputFieldorder = document.getElementById("ChoiceQTYOrder");
     var inputValueorder = inputFieldorder.value.trim();
     if (inputValue === "" || inputValue2 === "" || inputValueDate === "" || inputValueorder === "") {
         if (inputValue === "") {
-            $("#inputState1").css({
+            $("#IteminputState").css({
                 border: "2px solid red"
             });
         } else {
-            $("#inputState1").css({
+            $("#IteminputState").css({
                 border: "0px solid white"
             });
         }
         if (inputValue2 === "") {
-            $("#inputState").css({
+            $("#CustominputState").css({
                 border: "2px solid red"
             });
         } else {
-            $("#inputState").css({
+            $("#CustominputState").css({
                 border: "0px solid white"
             });
         }
@@ -145,32 +192,39 @@ function checkValidationPurch() {
             });
         }
         if (inputValueorder === "") {
-            $("#OrderItemqty").css({
+            $("#ChoiceQTYOrder").css({
                 border: "2px solid red"
             });
         } else {
-            $("#OrderItemqty").css({
+            $("#ChoiceQTYOrder").css({
                 border: "0px solid white"
             });
         }
     } else {
-        $("#inputState1").css({
+        $("#IteminputState").css({
             border:"0px solid white"
         });
-        $("#inputState").css({
+        $("#CustominputState").css({
             border:"0px solid white"
         });
         $("#date").css({
             border:"0px solid white"
         });
-        $("#OrderItemqty").css({
+        $("#ChoiceQTYOrder").css({
             border:"2px solid white"
         });
     }
 }
 
-$("#addToCart").click(function () {
+$("#addToCardOrder").click(function () {
     checkValidation();
+});
+
+let inputCash = document.getElementById("inputCash");
+let cashLOwMasse = document.getElementById("cashShow");
+
+inputCash.addEventListener("keyup", function () {
+    inputCashCheck();
 });
 
 function inputCashCheck() {
@@ -180,19 +234,19 @@ function inputCashCheck() {
         $("#cashLOwMasse").css({
             display: "none"
         });
-        $("#cash").css({
+        $("#inputCash").css({
             border:"0px solid white"
         });
         $("#cashShow").css({
             display: "none"
         });
-        $("#Balance").val(balance);
-        // document.getElementById("Balance").innerHTML = balance;
+        $("#BalanceInput").val(balance);
+        // document.getElementById("BalanceInput").innerHTML = balance;
     }else {
         $("#cashLOwMasse").css({
             display: "block",
         });
-        $("#cash").css({
+        $("#inputCash").css({
             border:"2px solid red"
         });
         $("#cashShow").css({
@@ -202,69 +256,60 @@ function inputCashCheck() {
     }
 }
 
-$("#puches").click(function () {
-    let inputField = document.getElementById("cash");
+$("#purchase").click(function () {
+    let inputField = document.getElementById("inputCash");
     let inputValue = inputField.value.trim();
-    let inputFieldDate = document.getElementById("Balance");
+    let inputField2 = document.getElementById("discount");
+    let inputValue2 = inputField2.value.trim();
+    let inputFieldDate = document.getElementById("BalanceInput");
     let inputValueDate = inputFieldDate.value.trim();
-    if (checkValidationPurch() || inputValue === "" || inputValueDate === "") {
-        $("#cash").css({
+    if (checkValidationPurch() || inputValue === "" || inputValue2 === "" || inputValueDate === "") {
+        $("#inputCash").css({
             border:"2px solid red"
         });
-
-        $("#Balance").css({
+        $("#discount").css({
             border:"2px solid red"
         });
-
-        $("#Discount").css({
+        $("#BalanceInput").css({
             border:"2px solid red"
         });
-        checkValidationPurch();
+        // checkValidationPurch();
     } else {
-        $("#cash").css({
+        $("#inputCash").css({
             border:"0px solid white"
         });
-
-        $("#Balance").css({
+        $("#discount").css({
             border:"0px solid white"
         });
-
-        $("#Discount").css({
+        $("#BalanceInput").css({
             border:"0px solid white"
         });
-        // setOrderValue(orderIDstor);
         ItemQTYLower(orderIDstor);
+        // setOrderValue(orderIDstor);
     }
 });
 
 function allemtyset() {
-    $("#oId").val("");
+    $("#custIdSetOrder").val("");
+    $("#custNameSetOrder").val("");
+    $("#custAddressSetOrder").val("");
+    $("#custSalarySetOrder").val("");
+    $("#ItemIdSetOrder").val("");
+    $("#ItemNameSetOrder").val("");
+    $("#ItemPriceSetOrder").val("");
+    $("#ItemQTYSetOrder").val("");
+
+    $("#inputCash").val("");
+    $("#discount").val("");
+    $("#BalanceInput").val("");
     $("#date").val("");
-    $("#inputState").val("");
-    $("#Custid").val("");
-    $("#Custname").val("");
-    $("#inputState1").val("");
-    $("#OrderitemName").val("");
-    $("#OrderUnitprice").val("");
+    $("#CustominputState").val("C00-001");
 
-    $("#qtyH").val("");
-    $("#qlity").val("");
-    $("#OrderItemqty").val("");
-    $("#cash").val("");
-    $("#Balance").val("");
-    $("#inputState").val("C00-001");
-    $("#Discount").val("");
-
-    $("#inputState1").val("I00-001");
+    $("#IteminputState").val("I00-001");
     $("#lableTotPrice").text("0");
     $("#lableSubTotal").text("0");
     $("#ChoiceQTYOrder").val("");
-    $("#orderTbdy").empty();
-    generateOrderID();
+    $("#TBodyOrder").empty();
+    generateOrderIDsecond();
     alert("order placed");
-
 }
-
-
-
-

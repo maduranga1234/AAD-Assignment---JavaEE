@@ -30,8 +30,7 @@ selectElement.addEventListener("change", function () {
         success: function (customer) {
             $("#custIdSetOrder").val(customer.id);
             $("#custNameSetOrder").val(customer.name);
-            $("#custAddressSetOrder").val(customer.address);
-            $("#custSalarySetOrder").val(customer.salary);
+
         },
         error: function (xhr, status, error) {
             console.error("AJAX request failed:", status, error);
@@ -75,10 +74,10 @@ selectItemElement.addEventListener("change", function () {
         success: function (item) {
             console.log(item); // Debugging: Check the received item object
             if (item) {
-                $("#ItemIdSetOrder").val(item.code);
-                $("#ItemNameSetOrder").val(item.description);
-                $("#ItemPriceSetOrder").val(item.price);
-                $("#ItemQTYSetOrder").val(item.qty);
+                $("#OrderitemName").val(item.name);
+                $("#OrderUnitprice").val(item.price);
+                $("#qtyH").val(item.qty);
+                $("#qlity").val(item.qulity);
 
                 itemCodetoOrder = item.code;
                 itemNametoOrder = item.description;
@@ -119,11 +118,13 @@ function getAllItemSetTableArray() {
     $("#TBodyOrder").empty()
     for (let i = 0; i < defaultArrayToSecondItem.length; i++) {
         let id = defaultArrayToSecondItem[i].itemCode;
+        let name = defaultArrayToSecondItem[i].itemName;
         let price = defaultArrayToSecondItem[i].itemPrice;
         let QTY = defaultArrayToSecondItem[i].itemQTYChoice;
         let total = defaultArrayToSecondItem[i].totalPrice;
         let row = `<tr>
                      <td>${id}</td>
+                     <td>${name}</td>
                      <td>${price}</td>
                      <td>${QTY}</td>
                      <td>${total}</td>
