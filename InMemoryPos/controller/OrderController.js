@@ -1,80 +1,102 @@
 // customer side
-
-let selectElement = document.getElementById("inputState");
+let selectElement = document.getElementById("CustominputState");
 getAllCustomer();
 function getAllCustomer() {
-    customerDB.forEach(function(customer) {
-        let option = document.createElement("option");
-        option.value = customer.id;
-        option.textContent = customer.id;
-        selectElement.appendChild(option);
+    $.ajax({
+        url: "http://localhost:8080/app/customer?function=getAll",
+        method: "GET",
+        dataType: "json",
+        success: function (res) {
+            var rows = "";
+            $.each(res.data, function (index, c) {
+                let option = document.createElement("option");
+                option.value = c.id;
+                option.textContent = c.id;
+                selectElement.appendChild(option);
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", status, error);
+        }
     });
 }
 
-let CustomerIdShirOrder;
 selectElement.addEventListener("change", function () {
     let selectedId = selectElement.value;
-    let selectedCustomer = customerDB.find(function(customer) {
-        return customer.id === selectedId;
+    $.ajax({
+        url: "http://localhost:8080/app/customer?function=getById&selectedId="+selectedId,
+        method: "GET",
+        dataType: "json",
+        success: function (customer) {
+            $("#custIdSetOrder").val(customer.id);
+            $("#custNameSetOrder").val(customer.name);
+            $("#custAddressSetOrder").val(customer.address);
+            $("#custSalarySetOrder").val(customer.salary);
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", status, error);
+        }
     });
-    if (selectedCustomer) {
-        $("#Custid").val(selectedCustomer.id);
-        $("#Custname").val(selectedCustomer.name);
-
-        CustomerIdShirOrder = selectedCustomer.id;
-    }
 });
 
-// item side
-getAllCustomercheck();
-function getAllCustomercheck() {
-    customerDB.forEach(function (customer) {
-        console.log(customer.id);
-        console.log(customer.name);
+getAllItem();
+let selectItemElement = document.getElementById("IteminputState");
+function getAllItem() {
+    $.ajax({
+        url: "http://localhost:8080/app/item?function=getAll",
+        method: "GET",
+        dataType: "json",
+        success: function (res) {
+            var rows = "";
+            $.each(res.data, function (index, c) {
+                let option = document.createElement("option");
+                option.value = c.code;
+                option.textContent = c.code;
+                selectItemElement.appendChild(option);
+            });
 
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", status, error);
+        }
     });
 }
 
-let selectItemElement = document.getElementById("inputState1");
-let itemCode;
-let itemName;
-
-itemDB.forEach(function(item) {
-    let option = document.createElement("option");
-    option.value = item.code;
-    option.textContent = item.code;
-    selectItemElement.appendChild(option);
-});
 
 let itemCodetoOrder;
 let itemNametoOrder;
 let itemPricetoOrder;
-let itemQTYLow;
-let ChoiceElementOrder = document.getElementById("OrderItemqty");
-const defaultArrayToSecondItem = [];
 selectItemElement.addEventListener("change", function () {
-    let selectedId = selectItemElement.value;
-    let selectedItem = itemDB.find(function(item) {
-        return item.code === selectedId;
-    });
-    if (selectedItem) {
-        CheckQTY(selectedItem.qtyOnHand);
-        $("#inputState1").val(selectedItem.code);
-        $("#OrderitemName").val(selectedItem.name);
-        $("#OrderUnitprice").val(selectedItem.unitPrice);
-        $("#qtyH").val(selectedItem.qtyOnHand);
-        $("#qlity").val(selectedItem.qlity);
+    let selectedCode = selectItemElement.value;
+    $.ajax({
+        url: "http://localhost:8080/app/item?function=getById&selectedcode=" + selectedCode,
+        method: "GET",
+        dataType: "json",
+        success: function (item) {
+            console.log(item); // Debugging: Check the received item object
+            if (item) {
+                $("#ItemIdSetOrder").val(item.code);
+                $("#ItemNameSetOrder").val(item.description);
+                $("#ItemPriceSetOrder").val(item.price);
+                $("#ItemQTYSetOrder").val(item.qty);
 
-        itemCodetoOrder = selectedItem.code;
-        itemNametoOrder = selectedItem.name;
-        itemPricetoOrder = selectedItem.unitPrice;
-        itemQTYLow = selectedItem.qtyOnHand;
-    }
+                itemCodetoOrder = item.code;
+                itemNametoOrder = item.description;
+                itemPricetoOrder = item.price;
+            } else {
+                // Handle case where no item is found with the provided code
+                console.error("Item not found with code: " + selectedCode);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX request failed:", status, error);
+        }
+    });
 });
 
-let NotablesetRound=0;
+let ChoiceElementOrder = document.getElementById("ChoiceQTYOrder");
+const defaultArrayToSecondItem = [];
 function getAllItemTOOrder() {
-    alert("gfg")
     let newItemtoOrder = Object.assign({}, itemToOrder);
     let totalItemPrice = itemPricetoOrder * ChoiceElementOrder.value;
     let existingItemIndex = defaultArrayToSecondItem.findIndex(item => item.itemCode === itemCodetoOrder);
@@ -89,28 +111,24 @@ function getAllItemTOOrder() {
         newItemtoOrder.itemQTYChoice = ChoiceElementOrder.value;
         newItemtoOrder.totalPrice = totalItemPrice;
         defaultArrayToSecondItem.push(newItemtoOrder);
-        NotablesetRound++;
-        // alert(NotablesetRound);
     }
     getAllItemSetTableArray();
 }
 
 function getAllItemSetTableArray() {
-    $("#orderTbdy").empty()
+    $("#TBodyOrder").empty()
     for (let i = 0; i < defaultArrayToSecondItem.length; i++) {
         let id = defaultArrayToSecondItem[i].itemCode;
-        let name = defaultArrayToSecondItem[i].itemName;
         let price = defaultArrayToSecondItem[i].itemPrice;
         let QTY = defaultArrayToSecondItem[i].itemQTYChoice;
         let total = defaultArrayToSecondItem[i].totalPrice;
         let row = `<tr>
                      <td>${id}</td>
-                     <td>${name}</td>
                      <td>${price}</td>
                      <td>${QTY}</td>
                      <td>${total}</td>
                     </tr>`;
-        $("#orderTbdy").append(row);
+        $("#TBodyOrder").append(row);
         calculateTotalPrice();
     }
 }
@@ -118,7 +136,6 @@ function getAllItemSetTableArray() {
 //purchase order
 let totalPriceSum2;
 function calculateTotalPrice() {
-    alert("total")
     let totalPriceSum = 0;
     for (let i = 0; i < defaultArrayToSecondItem.length; i++) {
         totalPriceSum += defaultArrayToSecondItem[i].totalPrice;
@@ -126,26 +143,17 @@ function calculateTotalPrice() {
     document.getElementById("lableTotPrice").innerHTML = totalPriceSum;
     document.getElementById("lableSubTotal").innerHTML = totalPriceSum;
     totalPriceSum2=totalPriceSum;
-
-
 }
 
-let inputCash = document.getElementById("cash");
-let cashLOwMasse = document.getElementById("cashShow");
-
-inputCash.addEventListener("keyup", function () {
-    inputCashCheck();
-});
-
 // discount
-let discount = document.getElementById("Discount");
+let discount = document.getElementById("discount");
 discount.addEventListener("keyup", function (){
     let discountValue = discount.value;
     let discountAmount = (discountValue / 100) * totalPriceSum2;
     let discountedPrice = totalPriceSum2 - discountAmount;
     document.getElementById("lableSubTotal").innerHTML = discountedPrice;
     let balance = inputCash.value-discountedPrice;
-    $("#Balance").val(balance);
+    $("#BalanceInput").val(balance);
 });
 
 function ItemQTYLower(orderIDstor) {
@@ -160,26 +168,22 @@ function ItemQTYLower(orderIDstor) {
                 let lowQTYUpdate = itemQtyOnHand - defaultArrayItemQTY;
 
                 itemDB[k].qtyOnHand = lowQTYUpdate;
-
-                // console.log("Code: " + itemDB[k].code);
-                // console.log("Description: " + itemDB[k].description);
-                // console.log("Qty on Hand: " + lowQTYUpdate);
-                // console.log("Unit Price: " + itemDB[k].unitPrice);
-                // console.log("\n");
             }
         }
     }
     setOrderValue(orderIDstor);
 }
 
-// arry set value
-
 function setOrderValue(orderIDstor) {
     // orderDB.length=0;
     // orderDB.orderDetails=0
     let orderId = orderIDstor;
     let date = $("#date").val();
-    let custId = $("#inputState").val();
+    let custId = $("#custIdSetOrder").val();
+    let discount = $("#discount").val();
+    let finalPrice = $("#lableTotPrice").text();
+    let orderDetailssss = [];
+
 
     let order = {
         oid: orderId,
@@ -202,74 +206,46 @@ function setOrderValue(orderIDstor) {
                 unitPrice: total
             }
         );
+
+        let orderDetailArrayobject = {
+            order_id: orderId,
+            item_code: id,
+            unit_price: total,
+            qty: QTY
+        }
+        orderDetailssss.push(orderDetailArrayobject);
+
+        let orderObj = {
+            order_id: orderId,
+            date: date,
+            cust_id: custId,
+            discount: discount,
+            total: finalPrice,
+            order_list: orderDetailssss
+        }
+        let jsonObj = JSON.stringify(orderObj);
+        $.ajax({
+            url: "http://localhost:8080/app/order",
+            method: "post",
+            contentType: "application/json",
+            data: jsonObj,
+            success: function (resp, textStatus, jqxhr) {
+                alert("Order placed successfully");
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                alert("Something went wrong. Order not placed")
+            }
+        });
+
+
     }
 
     orderDB.push(order);
-
     defaultArrayToSecondItem.length=0;
-
-
-    // orderDB.forEach(function (order) {
-    //     console.log("Order ID: " + order.oid);
-    //     console.log("Date: " + order.date);
-    //     console.log("Customer ID: " + order.customerID);
-    //
-    //     order.orderDetails.forEach(function (detail) {
-    //         console.log("Order Detail Code: " + detail.oid);
-    //         console.log("Order Detail Code: " + detail.code);
-    //         console.log("Quantity: " + detail.qty);
-    //         console.log("Unit Price: " + detail.unitPrice);
-    //     });
-    // });
-
-    // for (let i = 0; i < secondRoundArry.length; i++) {
-    //     console.log(secondRoundArry[i]);
-    // }
-
     allemtyset();
 }
-
-const totalArry = [];
-let ChoiceElement6 = document.getElementById("oId");
-ChoiceElement6.addEventListener("keyup", function () {
-    let inputOrd = ChoiceElement6.value;
-    $("#orderTbdy").empty();
-
-    for (let i = 0; i < orderDB.length; i++) {
-        let order = orderDB[i];
-        if (order.oid === inputOrd) {
-            let orderDetails = order.orderDetails;
-            let totalOrderPrice = 0;
-
-            for (let j = 0; j < orderDetails.length; j++) {
-                let code = orderDetails[j].code;
-                let QTY = orderDetails[j].qty;
-                let unitPrice = orderDetails[j].unitPrice;
-
-                for (let k = 0; k < itemDB.length; k++) {
-                    let realItemid = itemDB[k].code;
-
-                    if (realItemid === code) {
-                        let realItemname = itemDB[k].name;
-                        let realItemPrice = itemDB[k].unitPrice;
-                        let row = `<tr>
-                            <td>${code}</td>
-                            <td>${realItemname}</td>
-                            <td>${realItemPrice}</td>
-                            <td>${QTY}</td>
-                            <td>${unitPrice}</td>
-                        </tr>`;
-                        $("#orderTbdy").append(row);
-
-                        totalOrderPrice += unitPrice;
-                    }
-                }
-            }
-            $("#lableTotPrice").text(totalOrderPrice);
-            $("#lableSubTotal").text(totalOrderPrice);
-        }
-    }
-});
 
 $(document).ready(function () {
     $('#clickTable').on('click', 'tr', function () {
