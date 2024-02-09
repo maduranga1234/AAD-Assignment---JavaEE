@@ -96,6 +96,7 @@ selectItemElement.addEventListener("change", function () {
 let ChoiceElementOrder = document.getElementById("ChoiceQTYOrder");
 const defaultArrayToSecondItem = [];
 function getAllItemTOOrder() {
+
     let newItemtoOrder = Object.assign({}, itemToOrder);
     let totalItemPrice = itemPricetoOrder * ChoiceElementOrder.value;
     let existingItemIndex = defaultArrayToSecondItem.findIndex(item => item.itemCode === itemCodetoOrder);
@@ -122,9 +123,10 @@ function getAllItemSetTableArray() {
         let price = defaultArrayToSecondItem[i].itemPrice;
         let QTY = defaultArrayToSecondItem[i].itemQTYChoice;
         let total = defaultArrayToSecondItem[i].totalPrice;
+
+
         let row = `<tr>
                      <td>${id}</td>
-                     <td>${name}</td>
                      <td>${price}</td>
                      <td>${QTY}</td>
                      <td>${total}</td>
@@ -154,7 +156,7 @@ discount.addEventListener("keyup", function (){
     let discountedPrice = totalPriceSum2 - discountAmount;
     document.getElementById("lableSubTotal").innerHTML = discountedPrice;
     let balance = inputCash.value-discountedPrice;
-    $("#BalanceInput").val(balance);
+    $("#Balance").val(balance);
 });
 
 function ItemQTYLower(orderIDstor) {

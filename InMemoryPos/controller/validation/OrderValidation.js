@@ -92,7 +92,7 @@ ChoiceElement.addEventListener("keyup", function () {
 });
 
 function checkValidation() {
-    var inputField = document.getElementById("ItemIdSetOrder");
+    var inputField = document.getElementById("OrderitemName");
     var inputValue = inputField.value.trim();
     var inputField2 = document.getElementById("custIdSetOrder");
     var inputValue2 = inputField2.value.trim();
@@ -102,11 +102,11 @@ function checkValidation() {
     var inputValueorder = inputFieldorder.value.trim();
     if (inputValue === "" || inputValue2 === "" || inputValueDate === "" || inputValueorder === "") {
         if (inputValue === "") {
-            $("#IteminputState").css({
+            $("#OrderitemName").css({
                 border: "2px solid red"
             });
         } else {
-            $("#IteminputState").css({
+            $("#OrderitemName").css({
                 border: "0px solid white"
             });
         }
@@ -139,7 +139,7 @@ function checkValidation() {
         }
     } else {
         getAllItemTOOrder();
-        $("#IteminputState").css({
+        $("#OrderitemName").css({
             border:"0px solid white"
         });
         $("#CustominputState").css({
@@ -155,7 +155,7 @@ function checkValidation() {
 }
 
 function checkValidationPurch() {
-    var inputField = document.getElementById("ItemIdSetOrder");
+    var inputField = document.getElementById("IteminputState");
     var inputValue = inputField.value.trim();
     var inputField2 = document.getElementById("custIdSetOrder");
     var inputValue2 = inputField2.value.trim();
@@ -220,7 +220,7 @@ $("#addToCardOrder").click(function () {
     checkValidation();
 });
 
-let inputCash = document.getElementById("inputCash");
+let inputCash = document.getElementById("cash");
 let cashLOwMasse = document.getElementById("cashShow");
 
 inputCash.addEventListener("keyup", function () {
@@ -234,19 +234,19 @@ function inputCashCheck() {
         $("#cashLOwMasse").css({
             display: "none"
         });
-        $("#inputCash").css({
+        $("#cash").css({
             border:"0px solid white"
         });
         $("#cashShow").css({
             display: "none"
         });
-        $("#BalanceInput").val(balance);
+        $("#Balance").val(balance);
         // document.getElementById("BalanceInput").innerHTML = balance;
     }else {
         $("#cashLOwMasse").css({
             display: "block",
         });
-        $("#inputCash").css({
+        $("#cash").css({
             border:"2px solid red"
         });
         $("#cashShow").css({
@@ -256,32 +256,32 @@ function inputCashCheck() {
     }
 }
 
-$("#purchase").click(function () {
-    let inputField = document.getElementById("inputCash");
+$("#puches").click(function () {
+    let inputField = document.getElementById("cash");
     let inputValue = inputField.value.trim();
     let inputField2 = document.getElementById("discount");
     let inputValue2 = inputField2.value.trim();
-    let inputFieldDate = document.getElementById("BalanceInput");
+    let inputFieldDate = document.getElementById("Balance");
     let inputValueDate = inputFieldDate.value.trim();
     if (checkValidationPurch() || inputValue === "" || inputValue2 === "" || inputValueDate === "") {
-        $("#inputCash").css({
+        $("#cash").css({
             border:"2px solid red"
         });
         $("#discount").css({
             border:"2px solid red"
         });
-        $("#BalanceInput").css({
+        $("#Balance").css({
             border:"2px solid red"
         });
         // checkValidationPurch();
     } else {
-        $("#inputCash").css({
+        $("#cash").css({
             border:"0px solid white"
         });
         $("#discount").css({
             border:"0px solid white"
         });
-        $("#BalanceInput").css({
+        $("#Balance").css({
             border:"0px solid white"
         });
         ItemQTYLower(orderIDstor);
